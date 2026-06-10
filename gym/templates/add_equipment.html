@@ -1,0 +1,144 @@
+﻿{% extends 'navigation.html' %}
+{% load static %}
+
+{% block css %}
+<style>
+    .form-card {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 6px 30px rgba(0,0,0,0.12);
+        overflow: hidden;
+        max-width: 680px;
+        width: 100%;
+    }
+    .form-header {
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        color: #fff;
+        text-align: center;
+        padding: 22px 20px;
+        font-size: 1.4rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+    .form-body {
+        padding: 30px 35px;
+        background: #f0f6ff;
+    }
+    .form-body label {
+        font-weight: 600;
+        font-size: 0.92rem;
+        color: #333;
+        margin-bottom: 4px;
+    }
+    .form-body .form-control {
+        border: 1.5px solid #c7d1e3;
+        border-radius: 8px;
+        padding: 9px 14px;
+        font-size: 0.95rem;
+        transition: border-color 0.25s;
+    }
+    .form-body .form-control:focus {
+        border-color: #6a11cb;
+        box-shadow: 0 0 0 0.15rem rgba(106,17,203,0.15);
+    }
+    .req { color: #e53935; }
+    .btn-submit {
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 0;
+        font-weight: 700;
+        font-size: 1rem;
+        width: 100%;
+        cursor: pointer;
+        transition: opacity 0.2s;
+    }
+    .btn-submit:hover { opacity: 0.9; color: #fff; }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container d-flex justify-content-center py-4">
+    <div class="form-card">
+        <div class="form-header">
+            <i class="fa fa-cogs"></i>
+            {% if equipment %}Edit Equipment{% else %}Add New Equipment{% endif %}
+        </div>
+        <div class="form-body">
+            <form action="{% if equipment %}{% url 'edit_equipment' equipment.id %}{% else %}{% url 'add_equipment' %}{% endif %}" method="post">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>Equipment Name <span class="req">*</span></label>
+                    <input type="text" name="name" class="form-control" placeholder="Enter equipment name" value="{{ equipment.name|default:'' }}" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Category <span class="req">*</span></label>
+                        <select name="category" class="form-control" required>
+                            <option value="" disabled {% if not equipment %}selected{% endif %}>Select category</option>
+                            <option value="Cardio"      {% if equipment.category == 'Cardio' %}selected{% endif %}>Cardio Machines</option>
+                            <option value="Strength"    {% if equipment.category == 'Strength' %}selected{% endif %}>Strength Equipment</option>
+                            <option value="FreeWeights" {% if equipment.category == 'FreeWeights' %}selected{% endif %}>Free Weights</option>
+                            <option value="Yoga"        {% if equipment.category == 'Yoga' %}selected{% endif %}>Yoga &amp; Stretching</option>
+                            <option value="Accessories" {% if equipment.category == 'Accessories' %}selected{% endif %}>Accessories</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Condition <span class="req">*</span></label>
+                        <select name="condition" class="form-control" required>
+                            <option value="" disabled {% if not equipment %}selected{% endif %}>Select condition</option>
+                            <option value="new"         {% if equipment.condition == 'new' %}selected{% endif %}>New</option>
+                            <option value="used"        {% if equipment.condition == 'used' %}selected{% endif %}>Used</option>
+                            <option value="refurbished" {% if equipment.condition == 'refurbished' %}selected{% endif %}>Refurbished</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label>Quantity <span class="req">*</span></label>
+                        <input type="number" name="quantity" class="form-control" min="1" placeholder="e.g. 2" value="{{ equipment.quantity|default:1 }}" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Unit <span class="req">*</span></label>
+                        <select name="unit" class="form-control" required>
+                            <option value="" disabled {% if not equipment %}selected{% endif %}>Select</option>
+                            <option value="pcs"  {% if equipment.unit == 'pcs' %}selected{% endif %}>Pieces</option>
+                            <option value="set"  {% if equipment.unit == 'set' %}selected{% endif %}>Set</option>
+                            <option value="kg"   {% if equipment.unit == 'kg' %}selected{% endif %}>Kg</option>
+                            <option value="pair" {% if equipment.unit == 'pair' %}selected{% endif %}>Pair</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Price (Rs.) <span class="req">*</span></label>
+                        <input type="number" name="price" class="form-control" min="0" step="0.01" placeholder="e.g. 15000" value="{{ equipment.price|default:'' }}" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Purchase Date <span class="req">*</span></label>
+                    <input type="date" name="date" class="form-control" value="{% if equipment and equipment.date %}{{ equipment.date|date:'Y-m-d' }}{% endif %}" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Additional Notes</label>
+                    <textarea name="desc" class="form-control" rows="3" placeholder="Any additional information...">{{ equipment.description|default:'' }}</textarea>
+                </div>
+
+                <button type="submit" class="btn-submit mt-2">
+                    {% if equipment %}<i class="fa fa-save"></i> Save Changes{% else %}<i class="fa fa-plus"></i> Add Equipment{% endif %}
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% if error == "no" %}
+<script>alert('Record Inserted Successfully'); window.location="{% url 'view_equipment' %}";</script>
+{% elif error == "yes" %}
+<script>alert('Something went wrong. Please fill all required fields and try again.');</script>
+{% endif %}
+{% endblock %}
