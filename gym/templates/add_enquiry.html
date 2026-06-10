@@ -1,0 +1,158 @@
+﻿{% extends 'navigation.html' %}
+{% load static %}
+
+{% block css %}
+<style>
+    .form-card {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 6px 30px rgba(0,0,0,0.12);
+        overflow: hidden;
+        max-width: 680px;
+        width: 100%;
+    }
+    .form-header {
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        color: #fff;
+        text-align: center;
+        padding: 22px 20px;
+        font-size: 1.4rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+    .form-body {
+        padding: 30px 35px;
+        background: #f0f6ff;
+    }
+    .form-body label {
+        font-weight: 600;
+        font-size: 0.92rem;
+        color: #333;
+        margin-bottom: 4px;
+    }
+    .form-body .form-control {
+        border: 1.5px solid #c7d1e3;
+        border-radius: 8px;
+        padding: 9px 14px;
+        font-size: 0.95rem;
+        transition: border-color 0.25s;
+    }
+    .form-body .form-control:focus {
+        border-color: #6a11cb;
+        box-shadow: 0 0 0 0.15rem rgba(106,17,203,0.15);
+    }
+    .req { color: #e53935; }
+    .btn-submit {
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 0;
+        font-weight: 700;
+        font-size: 1rem;
+        width: 100%;
+        cursor: pointer;
+        transition: opacity 0.2s;
+    }
+    .btn-submit:hover { opacity: 0.9; color: #fff; }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container d-flex justify-content-center py-4">
+    <div class="form-card">
+        <div class="form-header">
+            <i class="fa fa-question-circle"></i>
+            {% if enq %}Edit Enquiry{% else %}Add New Enquiry{% endif %}
+        </div>
+        <div class="form-body">
+            <form action="{% if enq %}{% url 'edit_enquiry' enq.id %}{% else %}{% url 'add_enquiry' %}{% endif %}" method="post">
+                {% csrf_token %}
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Full Name <span class="req">*</span></label>
+                        <input type="text" name="name" class="form-control" placeholder="Enter full name" value="{{ enq.name|default:'' }}" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Email Address <span class="req">*</span></label>
+                        <input type="email" name="emailid" class="form-control" placeholder="Enter email" value="{{ enq.emailid|default:'' }}" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label>Phone Number <span class="req">*</span></label>
+                        <input type="tel" name="contact" class="form-control" placeholder="Enter phone" value="{{ enq.contact|default:'' }}" maxlength="15" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Age <span class="req">*</span></label>
+                        <input type="number" name="age" class="form-control" placeholder="Age" min="1" max="120" value="{{ enq.age|default:'' }}" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Gender <span class="req">*</span></label>
+                        <select name="gender" class="form-control" required>
+                            <option value="" disabled {% if not enq %}selected{% endif %}>Select</option>
+                            <option value="Male"   {% if enq.gender == 'Male' %}selected{% endif %}>Male</option>
+                            <option value="Female" {% if enq.gender == 'Female' %}selected{% endif %}>Female</option>
+                            <option value="Other"  {% if enq.gender == 'Other' %}selected{% endif %}>Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Preferred Branch <span class="req">*</span></label>
+                        <select name="branch" class="form-control" required>
+                            <option value="" disabled {% if not enq %}selected{% endif %}>Select branch</option>
+                            <option value="Branch 1" {% if enq.branch == 'Branch 1' %}selected{% endif %}>Branch 1</option>
+                            <option value="Branch 2" {% if enq.branch == 'Branch 2' %}selected{% endif %}>Branch 2</option>
+                            <option value="Branch 3" {% if enq.branch == 'Branch 3' %}selected{% endif %}>Branch 3</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Enquiry Type <span class="req">*</span></label>
+                        <select name="enquiry_type" class="form-control" required>
+                            <option value="" disabled {% if not enq %}selected{% endif %}>Select type</option>
+                            <option value="membership"        {% if enq.enquiry_type == 'membership' %}selected{% endif %}>Membership</option>
+                            <option value="classes"           {% if enq.enquiry_type == 'classes' %}selected{% endif %}>Classes</option>
+                            <option value="personal_training" {% if enq.enquiry_type == 'personal_training' %}selected{% endif %}>Personal Training</option>
+                            <option value="general"           {% if enq.enquiry_type == 'general' %}selected{% endif %}>General</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Preferred Contact Date</label>
+                        <input type="date" name="contact_date" class="form-control" value="{% if enq and enq.preferred_contact_date %}{{ enq.preferred_contact_date|date:'Y-m-d' }}{% endif %}">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Status</label>
+                        <select name="status" class="form-control">
+                            <option value="Pending"   {% if enq.status == 'Pending' or not enq %}selected{% endif %}>Pending</option>
+                            <option value="Processed" {% if enq.status == 'Processed' %}selected{% endif %}>Processed</option>
+                            <option value="Closed"    {% if enq.status == 'Closed' %}selected{% endif %}>Closed</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Additional Information</label>
+                    <textarea name="additional_info" class="form-control" rows="3" placeholder="Any additional details or questions...">{{ enq.additional_info|default:'' }}</textarea>
+                </div>
+
+                <button type="submit" class="btn-submit mt-2">
+                    {% if enq %}<i class="fa fa-save"></i> Save Changes{% else %}<i class="fa fa-paper-plane"></i> Submit Enquiry{% endif %}
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% if error == "no" %}
+<script>alert('Record Inserted Successfully'); window.location="{% url 'view_enquiry' %}";</script>
+{% elif error == "yes" %}
+<script>alert('Something went wrong. Please fill all required fields and try again.');</script>
+{% endif %}
+{% endblock %}

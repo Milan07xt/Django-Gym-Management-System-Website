@@ -1,0 +1,616 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>FitZone Gym | Admin Login</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+            rel="stylesheet">
+        <style>
+            *,
+            *::before,
+            *::after {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Poppins', sans-serif;
+                background: #0b0f1a;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+                position: relative;
+            }
+
+            /* Animated background particles */
+            .bg-orb {
+                position: fixed;
+                border-radius: 50%;
+                filter: blur(90px);
+                opacity: 0.25;
+                animation: orbFloat 12s ease-in-out infinite;
+                pointer-events: none;
+            }
+
+            .orb1 {
+                width: 500px;
+                height: 500px;
+                background: #32cd32;
+                top: -150px;
+                left: -150px;
+                animation-delay: 0s;
+            }
+
+            .orb2 {
+                width: 400px;
+                height: 400px;
+                background: #1a6b1a;
+                bottom: -100px;
+                right: -100px;
+                animation-delay: 4s;
+            }
+
+            .orb3 {
+                width: 300px;
+                height: 300px;
+                background: #00ff99;
+                top: 50%;
+                left: 55%;
+                animation-delay: 8s;
+            }
+
+            @keyframes orbFloat {
+
+                0%,
+                100% {
+                    transform: translate(0, 0) scale(1);
+                }
+
+                33% {
+                    transform: translate(30px, -30px) scale(1.05);
+                }
+
+                66% {
+                    transform: translate(-20px, 20px) scale(0.95);
+                }
+            }
+
+            /* Card */
+            .login-wrapper {
+                display: flex;
+                width: 960px;
+                max-width: 96vw;
+                min-height: 560px;
+                border-radius: 24px;
+                overflow: hidden;
+                box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(50, 205, 50, 0.15);
+                position: relative;
+                z-index: 10;
+                animation: cardIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+            }
+
+            @keyframes cardIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px) scale(0.97);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+
+            /* Left panel */
+            .panel-left {
+                flex: 1.15;
+                background: linear-gradient(160deg, #0d1f0d 0%, #111b23 100%);
+                padding: 56px 48px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .panel-left::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=60') center/cover;
+                opacity: 0.12;
+            }
+
+            .brand {
+                position: relative;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 44px;
+            }
+
+            .brand-icon {
+                width: 44px;
+                height: 44px;
+                background: linear-gradient(135deg, #32cd32, #00ff99);
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.3rem;
+                color: #0d1f0d;
+                font-weight: 900;
+            }
+
+            .brand-name {
+                font-size: 1.4rem;
+                font-weight: 800;
+                color: #fff;
+                letter-spacing: 0.5px;
+            }
+
+            .brand-name span {
+                color: #32cd32;
+            }
+
+            .panel-left h1 {
+                position: relative;
+                font-size: 2.4rem;
+                font-weight: 800;
+                color: #fff;
+                line-height: 1.2;
+                margin-bottom: 16px;
+            }
+
+            .panel-left h1 span {
+                color: #32cd32;
+            }
+
+            .panel-left p {
+                position: relative;
+                color: rgba(255, 255, 255, 0.65);
+                font-size: 0.95rem;
+                line-height: 1.7;
+                margin-bottom: 36px;
+            }
+
+            .feature-list {
+                position: relative;
+                list-style: none;
+            }
+
+            .feature-list li {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                padding: 10px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+                color: rgba(255, 255, 255, 0.8);
+                font-size: 0.9rem;
+                transition: color 0.2s;
+            }
+
+            .feature-list li:last-child {
+                border-bottom: none;
+            }
+
+            .feature-list li i {
+                color: #32cd32;
+                width: 18px;
+                text-align: center;
+            }
+
+            .stats-row {
+                position: relative;
+                display: flex;
+                gap: 24px;
+                margin-top: 36px;
+                padding-top: 28px;
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
+            }
+
+            .stat-item {
+                text-align: left;
+            }
+
+            .stat-item .num {
+                font-size: 1.6rem;
+                font-weight: 800;
+                color: #32cd32;
+            }
+
+            .stat-item .lbl {
+                font-size: 0.72rem;
+                color: rgba(255, 255, 255, 0.5);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+            /* Right panel */
+            .panel-right {
+                flex: 1;
+                background: #12181f;
+                padding: 56px 48px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .login-title {
+                margin-bottom: 36px;
+            }
+
+            .login-title .badge {
+                display: inline-block;
+                background: rgba(50, 205, 50, 0.12);
+                color: #32cd32;
+                border: 1px solid rgba(50, 205, 50, 0.25);
+                border-radius: 20px;
+                padding: 4px 14px;
+                font-size: 0.75rem;
+                font-weight: 600;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+                margin-bottom: 14px;
+            }
+
+            .login-title h2 {
+                font-size: 1.9rem;
+                font-weight: 800;
+                color: #fff;
+                margin-bottom: 6px;
+            }
+
+            .login-title p {
+                color: rgba(255, 255, 255, 0.45);
+                font-size: 0.9rem;
+            }
+
+            /* Error alert */
+            .error-alert {
+                background: rgba(220, 53, 69, 0.12);
+                border: 1px solid rgba(220, 53, 69, 0.35);
+                border-radius: 10px;
+                padding: 12px 16px;
+                margin-bottom: 20px;
+                color: #ff6b7a;
+                font-size: 0.88rem;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            /* Form fields */
+            .field {
+                margin-bottom: 20px;
+            }
+
+            .field label {
+                display: block;
+                color: rgba(255, 255, 255, 0.7);
+                font-size: 0.82rem;
+                font-weight: 600;
+                margin-bottom: 8px;
+                text-transform: uppercase;
+                letter-spacing: 0.6px;
+            }
+
+            .input-wrap {
+                position: relative;
+            }
+
+            .input-wrap i {
+                position: absolute;
+                left: 16px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: rgba(255, 255, 255, 0.3);
+                font-size: 0.9rem;
+                transition: color 0.25s;
+                pointer-events: none;
+            }
+
+            .input-wrap input {
+                width: 100%;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1.5px solid rgba(255, 255, 255, 0.1);
+                border-radius: 12px;
+                padding: 14px 16px 14px 44px;
+                color: #fff;
+                font-size: 0.95rem;
+                font-family: 'Poppins', sans-serif;
+                outline: none;
+                transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+            }
+
+            .input-wrap input::placeholder {
+                color: rgba(255, 255, 255, 0.25);
+            }
+
+            .input-wrap input:focus {
+                border-color: #32cd32;
+                background: rgba(50, 205, 50, 0.06);
+                box-shadow: 0 0 0 3px rgba(50, 205, 50, 0.12);
+            }
+
+            .input-wrap input:focus~i,
+            .input-wrap:focus-within i {
+                color: #32cd32;
+            }
+
+            /* Password toggle */
+            .toggle-pw {
+                position: absolute;
+                right: 14px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: rgba(255, 255, 255, 0.3);
+                cursor: pointer;
+                font-size: 0.9rem;
+                transition: color 0.2s;
+            }
+
+            .toggle-pw:hover {
+                color: #32cd32;
+            }
+
+            .row-options {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 28px;
+                margin-top: -4px;
+            }
+
+            .remember {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                color: rgba(255, 255, 255, 0.5);
+                font-size: 0.83rem;
+                cursor: pointer;
+            }
+
+            .remember input[type="checkbox"] {
+                accent-color: #32cd32;
+                width: 15px;
+                height: 15px;
+                cursor: pointer;
+            }
+
+            .forgot {
+                color: #32cd32;
+                font-size: 0.83rem;
+                text-decoration: none;
+                font-weight: 600;
+                transition: opacity 0.2s;
+            }
+
+            .forgot:hover {
+                opacity: 0.75;
+                text-decoration: underline;
+            }
+
+            .btn-login {
+                width: 100%;
+                padding: 15px;
+                background: linear-gradient(135deg, #1a6b1a, #32cd32);
+                border: none;
+                border-radius: 12px;
+                color: #0d1f0d;
+                font-size: 1rem;
+                font-weight: 700;
+                cursor: pointer;
+                letter-spacing: 0.5px;
+                transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+                font-family: 'Poppins', sans-serif;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .btn-login::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transform: translateX(-100%);
+                transition: transform 0.5s;
+            }
+
+            .btn-login:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 12px 32px rgba(50, 205, 50, 0.35);
+            }
+
+            .btn-login:hover::after {
+                transform: translateX(100%);
+            }
+
+            .btn-login:active {
+                transform: translateY(0);
+            }
+
+            .divider {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin: 24px 0;
+                color: rgba(255, 255, 255, 0.2);
+                font-size: 0.8rem;
+            }
+
+            .divider::before,
+            .divider::after {
+                content: '';
+                flex: 1;
+                height: 1px;
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            .footer-note {
+                text-align: center;
+                color: rgba(255, 255, 255, 0.35);
+                font-size: 0.82rem;
+                margin-top: 12px;
+            }
+
+            .footer-note a {
+                color: #32cd32;
+                text-decoration: none;
+                font-weight: 600;
+            }
+
+            .footer-note a:hover {
+                text-decoration: underline;
+            }
+
+            @media (max-width: 750px) {
+                .login-wrapper {
+                    flex-direction: column;
+                }
+
+                .panel-left {
+                    padding: 36px 28px;
+                }
+
+                .panel-right {
+                    padding: 36px 28px;
+                }
+
+                .stats-row {
+                    gap: 16px;
+                }
+
+                .panel-left h1 {
+                    font-size: 1.8rem;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- Ambient orbs -->
+        <div class="bg-orb orb1"></div>
+        <div class="bg-orb orb2"></div>
+        <div class="bg-orb orb3"></div>
+
+        <div class="login-wrapper">
+            <!-- Left branding panel -->
+            <div class="panel-left">
+                <div class="brand">
+                    <div class="brand-icon"><i class="fa fa-dumbbell"></i></div>
+                    <span class="brand-name">Fit<span>Zone</span></span>
+                </div>
+
+                <h1>Power Your <span>Gym</span> Management</h1>
+                <p>The all-in-one dashboard to manage members, trainers, equipment, and memberships with ease.</p>
+
+                <ul class="feature-list">
+                    <li><i class="fa fa-users"></i> Member & Trainer Management</li>
+                    <li><i class="fa fa-id-card"></i> Membership Plans & Billing</li>
+                    <li><i class="fa fa-cogs"></i> Equipment Inventory Tracking</li>
+                    <li><i class="fa fa-chart-bar"></i> Enquiry & Conversion Reports</li>
+                    <li><i class="fa fa-shield-alt"></i> Secure Staff Portal</li>
+                </ul>
+
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div class="num">500+</div>
+                        <div class="lbl">Members</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="num">50+</div>
+                        <div class="lbl">Trainers</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="num">100%</div>
+                        <div class="lbl">Secure</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right login panel -->
+            <div class="panel-right">
+                <div class="login-title">
+                    <div class="badge">🔐 Staff Access</div>
+                    <h2>Welcome Back</h2>
+                    <p>Sign in to your admin account to continue</p>
+                </div>
+
+                {% if messages %}
+                {% for message in messages %}
+                <div class="error-alert"><i class="fa fa-exclamation-circle"></i> {{ message }}</div>
+                {% endfor %}
+                {% endif %}
+
+                {% if form.non_field_errors %}
+                <div class="error-alert"><i class="fa fa-exclamation-circle"></i> {{ form.non_field_errors|striptags }}
+                </div>
+                {% endif %}
+
+                <form action="{% url 'login' %}" method="post" novalidate>
+                    {% csrf_token %}
+
+                    <div class="field">
+                        <label for="id_username">Username</label>
+                        <div class="input-wrap">
+                            <input type="text" id="id_username" name="username" placeholder="Enter your username"
+                                value="{{ request.POST.username|default:'' }}" autocomplete="username">
+                            <i class="fa fa-user"></i>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="id_password">Password</label>
+                        <div class="input-wrap">
+                            <input type="password" id="id_password" name="password" placeholder="Enter your password"
+                                autocomplete="current-password">
+                            <i class="fa fa-lock"></i>
+                            <span class="toggle-pw" id="togglePw" title="Show/Hide Password">
+                                <i class="fa fa-eye" id="eyeIcon"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="row-options">
+                        <label class="remember">
+                            <input type="checkbox" id="rememberMe"> Remember me
+                        </label>
+                        <a href="/forgot_password/" class="forgot">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="btn-login">
+                        <i class="fa fa-sign-in-alt"></i> &nbsp; Sign In to Dashboard
+                    </button>
+                </form>
+
+                <div class="divider">or</div>
+
+                <div class="footer-note">
+                    Not registered? <a href="/register/">Create an account</a>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Toggle password visibility
+            const togglePw = document.getElementById('togglePw');
+            const pwInput = document.getElementById('id_password');
+            const eyeIcon = document.getElementById('eyeIcon');
+            togglePw.addEventListener('click', () => {
+                const show = pwInput.type === 'password';
+                pwInput.type = show ? 'text' : 'password';
+                eyeIcon.className = show ? 'fa fa-eye-slash' : 'fa fa-eye';
+            });
+        </script>
+    </body>
+
+</html>

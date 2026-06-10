@@ -1,0 +1,705 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>FitZone Gym | Create Account</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+            rel="stylesheet">
+        <style>
+            *,
+            *::before,
+            *::after {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Poppins', sans-serif;
+                background: #0b0f1a;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow-x: hidden;
+                position: relative;
+                padding: 24px 16px;
+            }
+
+            /* Ambient orbs */
+            .bg-orb {
+                position: fixed;
+                border-radius: 50%;
+                filter: blur(90px);
+                opacity: 0.22;
+                animation: orbFloat 12s ease-in-out infinite;
+                pointer-events: none;
+            }
+
+            .orb1 {
+                width: 500px;
+                height: 500px;
+                background: #32cd32;
+                top: -150px;
+                left: -150px;
+                animation-delay: 0s;
+            }
+
+            .orb2 {
+                width: 400px;
+                height: 400px;
+                background: #1a6b1a;
+                bottom: -100px;
+                right: -100px;
+                animation-delay: 4s;
+            }
+
+            .orb3 {
+                width: 280px;
+                height: 280px;
+                background: #00ff99;
+                top: 50%;
+                left: 60%;
+                animation-delay: 8s;
+            }
+
+            @keyframes orbFloat {
+
+                0%,
+                100% {
+                    transform: translate(0, 0) scale(1);
+                }
+
+                33% {
+                    transform: translate(30px, -30px) scale(1.05);
+                }
+
+                66% {
+                    transform: translate(-20px, 20px) scale(0.95);
+                }
+            }
+
+            /* Card */
+            .register-wrapper {
+                display: flex;
+                width: 980px;
+                max-width: 98vw;
+                border-radius: 24px;
+                overflow: hidden;
+                box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(50, 205, 50, 0.15);
+                position: relative;
+                z-index: 10;
+                animation: cardIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+            }
+
+            @keyframes cardIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px) scale(0.97);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+
+            /* Left branding panel */
+            .panel-left {
+                flex: 1;
+                background: linear-gradient(160deg, #0d1f0d 0%, #111b23 100%);
+                padding: 52px 44px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .panel-left::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=60') center/cover;
+                opacity: 0.1;
+            }
+
+            .brand {
+                position: relative;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 40px;
+            }
+
+            .brand-icon {
+                width: 44px;
+                height: 44px;
+                background: linear-gradient(135deg, #32cd32, #00ff99);
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.3rem;
+                color: #0d1f0d;
+                font-weight: 900;
+            }
+
+            .brand-name {
+                font-size: 1.4rem;
+                font-weight: 800;
+                color: #fff;
+                letter-spacing: 0.5px;
+            }
+
+            .brand-name span {
+                color: #32cd32;
+            }
+
+            .panel-left h1 {
+                position: relative;
+                font-size: 2.1rem;
+                font-weight: 800;
+                color: #fff;
+                line-height: 1.2;
+                margin-bottom: 14px;
+            }
+
+            .panel-left h1 span {
+                color: #32cd32;
+            }
+
+            .panel-left>p {
+                position: relative;
+                color: rgba(255, 255, 255, 0.6);
+                font-size: 0.9rem;
+                line-height: 1.7;
+                margin-bottom: 32px;
+            }
+
+            .benefit-list {
+                position: relative;
+                list-style: none;
+            }
+
+            .benefit-list li {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                padding: 10px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+                color: rgba(255, 255, 255, 0.8);
+                font-size: 0.88rem;
+            }
+
+            .benefit-list li:last-child {
+                border-bottom: none;
+            }
+
+            .benefit-list li i {
+                color: #32cd32;
+                width: 18px;
+                text-align: center;
+            }
+
+            .steps-row {
+                position: relative;
+                display: flex;
+                gap: 20px;
+                margin-top: 32px;
+                padding-top: 24px;
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
+            }
+
+            .step-item {
+                text-align: left;
+            }
+
+            .step-item .num {
+                font-size: 1.4rem;
+                font-weight: 800;
+                color: #32cd32;
+            }
+
+            .step-item .lbl {
+                font-size: 0.7rem;
+                color: rgba(255, 255, 255, 0.5);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+            /* Right form panel */
+            .panel-right {
+                flex: 1.1;
+                background: #12181f;
+                padding: 48px 44px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                overflow-y: auto;
+            }
+
+            .reg-title {
+                margin-bottom: 28px;
+            }
+
+            .reg-title .badge {
+                display: inline-block;
+                background: rgba(50, 205, 50, 0.12);
+                color: #32cd32;
+                border: 1px solid rgba(50, 205, 50, 0.25);
+                border-radius: 20px;
+                padding: 4px 14px;
+                font-size: 0.73rem;
+                font-weight: 600;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+                margin-bottom: 12px;
+            }
+
+            .reg-title h2 {
+                font-size: 1.75rem;
+                font-weight: 800;
+                color: #fff;
+                margin-bottom: 5px;
+            }
+
+            .reg-title p {
+                color: rgba(255, 255, 255, 0.42);
+                font-size: 0.88rem;
+            }
+
+            /* Alerts */
+            .alert-success {
+                background: rgba(50, 205, 50, 0.12);
+                border: 1px solid rgba(50, 205, 50, 0.3);
+                border-radius: 10px;
+                padding: 12px 16px;
+                margin-bottom: 18px;
+                color: #32cd32;
+                font-size: 0.86rem;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .alert-error {
+                background: rgba(220, 53, 69, 0.1);
+                border: 1px solid rgba(220, 53, 69, 0.3);
+                border-radius: 10px;
+                padding: 12px 16px;
+                margin-bottom: 18px;
+                color: #ff6b7a;
+                font-size: 0.86rem;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            /* Two-col row */
+            .field-row {
+                display: flex;
+                gap: 16px;
+            }
+
+            .field-row .field {
+                flex: 1;
+            }
+
+            /* Fields */
+            .field {
+                margin-bottom: 18px;
+            }
+
+            .field label {
+                display: block;
+                color: rgba(255, 255, 255, 0.68);
+                font-size: 0.78rem;
+                font-weight: 600;
+                margin-bottom: 7px;
+                text-transform: uppercase;
+                letter-spacing: 0.6px;
+            }
+
+            .input-wrap {
+                position: relative;
+            }
+
+            .input-wrap .ico {
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: rgba(255, 255, 255, 0.28);
+                font-size: 0.87rem;
+                pointer-events: none;
+                transition: color 0.25s;
+            }
+
+            .input-wrap input {
+                width: 100%;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1.5px solid rgba(255, 255, 255, 0.1);
+                border-radius: 11px;
+                padding: 13px 14px 13px 42px;
+                color: #fff;
+                font-size: 0.93rem;
+                font-family: 'Poppins', sans-serif;
+                outline: none;
+                transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+            }
+
+            .input-wrap input::placeholder {
+                color: rgba(255, 255, 255, 0.22);
+            }
+
+            .input-wrap input:focus {
+                border-color: #32cd32;
+                background: rgba(50, 205, 50, 0.06);
+                box-shadow: 0 0 0 3px rgba(50, 205, 50, 0.12);
+            }
+
+            .input-wrap:focus-within .ico {
+                color: #32cd32;
+            }
+
+            .input-wrap.has-error input {
+                border-color: #e53e3e;
+            }
+
+            .input-wrap.has-error .ico {
+                color: #e53e3e;
+            }
+
+            .field-error {
+                color: #ff6b7a;
+                font-size: 0.76rem;
+                margin-top: 5px;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+
+            .toggle-pw {
+                position: absolute;
+                right: 13px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: rgba(255, 255, 255, 0.28);
+                cursor: pointer;
+                font-size: 0.87rem;
+                transition: color 0.2s;
+            }
+
+            .toggle-pw:hover {
+                color: #32cd32;
+            }
+
+            /* Password strength */
+            .pw-strength-bar {
+                display: flex;
+                gap: 4px;
+                margin-top: 6px;
+            }
+
+            .pw-strength-bar span {
+                flex: 1;
+                height: 3px;
+                border-radius: 99px;
+                background: rgba(255, 255, 255, 0.1);
+                transition: background 0.3s;
+            }
+
+            .pw-strength-label {
+                font-size: 0.72rem;
+                color: rgba(255, 255, 255, 0.4);
+                margin-top: 4px;
+                text-align: right;
+            }
+
+            /* Submit */
+            .btn-register {
+                width: 100%;
+                padding: 14px;
+                background: linear-gradient(135deg, #1a6b1a, #32cd32);
+                border: none;
+                border-radius: 11px;
+                color: #0d1f0d;
+                font-size: 0.97rem;
+                font-weight: 700;
+                cursor: pointer;
+                letter-spacing: 0.5px;
+                transition: transform 0.2s, box-shadow 0.2s;
+                font-family: 'Poppins', sans-serif;
+                position: relative;
+                overflow: hidden;
+                margin-top: 6px;
+            }
+
+            .btn-register::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transform: translateX(-100%);
+                transition: transform 0.5s;
+            }
+
+            .btn-register:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 12px 32px rgba(50, 205, 50, 0.3);
+            }
+
+            .btn-register:hover::after {
+                transform: translateX(100%);
+            }
+
+            .btn-register:active {
+                transform: translateY(0);
+            }
+
+            .divider {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin: 20px 0;
+                color: rgba(255, 255, 255, 0.2);
+                font-size: 0.78rem;
+            }
+
+            .divider::before,
+            .divider::after {
+                content: '';
+                flex: 1;
+                height: 1px;
+                background: rgba(255, 255, 255, 0.08);
+            }
+
+            .footer-note {
+                text-align: center;
+                color: rgba(255, 255, 255, 0.35);
+                font-size: 0.82rem;
+                margin-top: 10px;
+            }
+
+            .footer-note a {
+                color: #32cd32;
+                text-decoration: none;
+                font-weight: 600;
+            }
+
+            .footer-note a:hover {
+                text-decoration: underline;
+            }
+
+            @media (max-width: 780px) {
+                .register-wrapper {
+                    flex-direction: column;
+                }
+
+                .panel-left {
+                    padding: 36px 26px;
+                }
+
+                .panel-right {
+                    padding: 36px 26px;
+                }
+
+                .field-row {
+                    flex-direction: column;
+                    gap: 0;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- Ambient orbs -->
+        <div class="bg-orb orb1"></div>
+        <div class="bg-orb orb2"></div>
+        <div class="bg-orb orb3"></div>
+
+        <div class="register-wrapper">
+            <!-- Left branding panel -->
+            <div class="panel-left">
+                <div class="brand">
+                    <div class="brand-icon"><i class="fa fa-dumbbell"></i></div>
+                    <span class="brand-name">Fit<span>Zone</span></span>
+                </div>
+                <h1>Join the <span>FitZone</span><br>Admin Team</h1>
+                <p>Create your staff account and get full access to the gym management dashboard.</p>
+                <ul class="benefit-list">
+                    <li><i class="fa fa-users"></i> Manage Members &amp; Trainers</li>
+                    <li><i class="fa fa-id-card"></i> Handle Membership Plans &amp; Billing</li>
+                    <li><i class="fa fa-cogs"></i> Track Equipment Inventory</li>
+                    <li><i class="fa fa-chart-bar"></i> View Enquiry &amp; Conversion Reports</li>
+                    <li><i class="fa fa-shield-alt"></i> Secure Staff-only Portal</li>
+                </ul>
+                <div class="steps-row">
+                    <div class="step-item">
+                        <div class="num">1</div>
+                        <div class="lbl">Create</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="num">2</div>
+                        <div class="lbl">Sign In</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="num">3</div>
+                        <div class="lbl">Manage</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right form panel -->
+            <div class="panel-right">
+                <div class="reg-title">
+                    <div class="badge">🏋️ Staff Registration</div>
+                    <h2>Create Your Account</h2>
+                    <p>Fill in the details below to set up your admin account</p>
+                </div>
+
+                <!-- Django messages (success toast) -->
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert-success"><i class="fa fa-check-circle"></i> {{ message }}</div>
+                {% endfor %}
+                {% endif %}
+
+                <!-- Top-level error summary (if any field errors exist) -->
+                {% if errors %}
+                <div class="alert-error">
+                    <i class="fa fa-exclamation-circle"></i>
+                    Please fix the highlighted errors below.
+                </div>
+                {% endif %}
+
+                <form method="POST" action="{% url 'register' %}" novalidate>
+                    {% csrf_token %}
+
+                    <!-- Full Name & Username (side by side) -->
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="full_name">Full Name</label>
+                            <div class="input-wrap {% if errors.full_name %}has-error{% endif %}">
+                                <input type="text" id="full_name" name="full_name" placeholder="Your full name"
+                                    value="{{ form_data.full_name|default:'' }}" autocomplete="name">
+                                <i class="fa fa-user ico"></i>
+                            </div>
+                            {% if errors.full_name %}
+                            <div class="field-error"><i class="fa fa-times-circle"></i> {{ errors.full_name }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="field">
+                            <label for="username">Username</label>
+                            <div class="input-wrap {% if errors.username %}has-error{% endif %}">
+                                <input type="text" id="username" name="username" placeholder="Choose a username"
+                                    value="{{ form_data.username|default:'' }}" autocomplete="username">
+                                <i class="fa fa-at ico"></i>
+                            </div>
+                            {% if errors.username %}
+                            <div class="field-error"><i class="fa fa-times-circle"></i> {{ errors.username }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="field">
+                        <label for="email">Email Address</label>
+                        <div class="input-wrap {% if errors.email %}has-error{% endif %}">
+                            <input type="email" id="email" name="email" placeholder="you@example.com"
+                                value="{{ form_data.email|default:'' }}" autocomplete="email">
+                            <i class="fa fa-envelope ico"></i>
+                        </div>
+                        {% if errors.email %}
+                        <div class="field-error"><i class="fa fa-times-circle"></i> {{ errors.email }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Password -->
+                    <div class="field">
+                        <label for="password">Password</label>
+                        <div class="input-wrap {% if errors.password %}has-error{% endif %}">
+                            <input type="password" id="password" name="password" placeholder="At least 8 characters"
+                                autocomplete="new-password" oninput="updateStrength(this.value)">
+                            <i class="fa fa-lock ico"></i>
+                            <span class="toggle-pw" onclick="togglePw('password','eyePw1')">
+                                <i class="fa fa-eye" id="eyePw1"></i>
+                            </span>
+                        </div>
+                        <!-- Strength bar -->
+                        <div class="pw-strength-bar" id="strengthBar">
+                            <span id="s1"></span><span id="s2"></span><span id="s3"></span><span id="s4"></span>
+                        </div>
+                        <div class="pw-strength-label" id="strengthLabel"></div>
+                        {% if errors.password %}
+                        <div class="field-error"><i class="fa fa-times-circle"></i> {{ errors.password }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="field">
+                        <label for="confirm_password">Confirm Password</label>
+                        <div class="input-wrap {% if errors.confirm_password %}has-error{% endif %}">
+                            <input type="password" id="confirm_password" name="confirm_password"
+                                placeholder="Repeat your password" autocomplete="new-password">
+                            <i class="fa fa-lock ico"></i>
+                            <span class="toggle-pw" onclick="togglePw('confirm_password','eyePw2')">
+                                <i class="fa fa-eye" id="eyePw2"></i>
+                            </span>
+                        </div>
+                        {% if errors.confirm_password %}
+                        <div class="field-error"><i class="fa fa-times-circle"></i> {{ errors.confirm_password }}</div>
+                        {% endif %}
+                    </div>
+
+                    <button type="submit" class="btn-register">
+                        <i class="fa fa-user-plus"></i> &nbsp;Create Account
+                    </button>
+                </form>
+
+                <div class="divider">already have an account?</div>
+                <div class="footer-note">
+                    <a href="{% url 'login' %}"><i class="fa fa-sign-in-alt"></i> &nbsp;Sign in to your dashboard</a>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function togglePw(inputId, iconId) {
+                const inp = document.getElementById(inputId);
+                const icon = document.getElementById(iconId);
+                const show = inp.type === 'password';
+                inp.type = show ? 'text' : 'password';
+                icon.className = show ? 'fa fa-eye-slash' : 'fa fa-eye';
+            }
+
+            function updateStrength(val) {
+                const colors = ['#e53e3e', '#ed8936', '#ecc94b', '#32cd32'];
+                const labels = ['Weak', 'Fair', 'Good', 'Strong'];
+                let score = 0;
+                if (val.length >= 8) score++;
+                if (/[A-Z]/.test(val)) score++;
+                if (/[0-9]/.test(val)) score++;
+                if (/[^A-Za-z0-9]/.test(val)) score++;
+
+                const bars = ['s1', 's2', 's3', 's4'];
+                const color = colors[score - 1] || 'rgba(255,255,255,0.08)';
+                bars.forEach((id, i) => {
+                    document.getElementById(id).style.background =
+                        i < score ? color : 'rgba(255,255,255,0.08)';
+                });
+                document.getElementById('strengthLabel').textContent =
+                    val.length === 0 ? '' : (labels[score - 1] || '');
+                document.getElementById('strengthLabel').style.color =
+                    val.length === 0 ? '' : color;
+            }
+        </script>
+    </body>
+
+</html>
