@@ -26,10 +26,18 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '%$$-76y4tl7sbv*e$acozc=$wjeua9d8g0l%y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = [h.strip() for h in os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost,gym-management-system-mu-peach.vercel.app,gym-management-system-website.vercel.app').split(',')]
+ALLOWED_HOSTS = [
+    h.strip()
+    for h in os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost,.vercel.app').split(',')
+    if h.strip()
+]
 
-# Required in Django 4.0+ — trust the Railway domain for CSRF (form logins etc.)
-CSRF_TRUSTED_ORIGINS = [f'https://{h}' for h in ALLOWED_HOSTS if h not in ('127.0.0.1', 'localhost')]
+# Required in Django 4.0+ — trust the deployment host for CSRF (form logins etc.)
+CSRF_TRUSTED_ORIGINS = [
+    f'https://{h}'
+    for h in ALLOWED_HOSTS
+    if h not in ('127.0.0.1', 'localhost') and not h.startswith('.')
+]
 CSRF_TRUSTED_ORIGINS += ['http://127.0.0.1', 'http://localhost']
 
 
