@@ -187,33 +187,29 @@ label {
 </style>
 
 <div class="form-container">
-    <h3 class="form-title">Add Plan</h3>
+    <h3 class="form-title">{% if plan %}Edit Plan{% else %}Add Plan{% endif %}</h3>
     <form action="{% if plan %}{% url 'edit_plan' plan.id %}{% else %}{% url 'add_plan' %}{% endif %}" method="post">
         {% csrf_token %}
         <label>Name</label>
-        <input type="text" name="name" placeholder="Enter plan name" class="form-input" value="{{ plan.name|default:'' }}">
+        <input type="text" name="name" placeholder="Enter plan name" class="form-input" value="{{ plan.name|default:'' }}" required>
 
-        <label>Amount</label>
-    <input type="text" name="amount" placeholder="Enter amount in $" class="form-input" value="{{ plan.amount|default:'' }}">
+        <label>Amount (Rs.)</label>
+        <input type="number" step="0.01" min="0" name="amount" placeholder="Enter amount in Rs." class="form-input" value="{{ plan.amount|default:'' }}" required>
 
-        <label>Duration</label>
-    <input type="text" name="duration" placeholder="Enter duration (e.g. 3 months)" class="form-input" value="{{ plan.duration|default:'' }}">
+        <label>Duration (days)</label>
+        <input type="number" min="1" name="duration" placeholder="Enter duration in days (e.g. 90)" class="form-input" value="{{ plan.duration|default:'' }}" required>
 
         <div class="form-buttons">
-            <input type="submit" value="Submit" class="btn btn-submit">
+            <input type="submit" value="{% if plan %}Save Changes{% else %}Submit{% endif %}" class="btn btn-submit">
             <a href="{% url 'view_plan' %}" class="btn btn-view">View Plans</a>
         </div>
     </form>
 </div>
 
-{% if messages %}
-<div class="alert-container">
-    {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
-            {{ "Record Inserted Successfully" }}
-        </div>
-    {% endfor %}
-</div>
+{% if error == "no" %}
+<script>alert('Plan Saved Successfully'); window.location="{% url 'view_plan' %}";</script>
+{% elif error == "yes" %}
+<script>alert('Something went wrong. Please check your inputs and try again.');</script>
 {% endif %}
 
 {% endblock %}

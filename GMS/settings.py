@@ -33,11 +33,14 @@ ALLOWED_HOSTS = [
 ]
 
 # Required in Django 4.0+ — trust the deployment host for CSRF (form logins etc.)
-CSRF_TRUSTED_ORIGINS = [
-    f'https://{h}'
-    for h in ALLOWED_HOSTS
-    if h not in ('127.0.0.1', 'localhost') and not h.startswith('.')
-]
+CSRF_TRUSTED_ORIGINS = []
+for h in ALLOWED_HOSTS:
+    if h in ('127.0.0.1', 'localhost'):
+        continue
+    if h.startswith('.'):
+        CSRF_TRUSTED_ORIGINS.append(f'https://*{h}')
+    else:
+        CSRF_TRUSTED_ORIGINS.append(f'https://{h}')
 CSRF_TRUSTED_ORIGINS += ['http://127.0.0.1', 'http://localhost']
 
 
@@ -125,9 +128,6 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
-
-USE_L10N = True
-
 USE_TZ = True
 
 

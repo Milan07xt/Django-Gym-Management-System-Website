@@ -3,7 +3,6 @@
 import os
 import sys
 
-#pniionionoi
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'GMS.settings')
     try:

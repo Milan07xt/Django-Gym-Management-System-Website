@@ -13,13 +13,8 @@ from gym.views import (
 from django.contrib.auth import views as auth_views # pyright: ignore[reportMissingModuleSource]
 
 urlpatterns = [
-    # ... other urls
-
-
-    path('admin-login', admin_login_view, name='admin_login'),
     path('admin/', admin.site.urls),
-       path('forgot_password/', forgot_password, name='forgot_password'),
-    # ... other urls
+    path('forgot_password/', forgot_password, name='forgot_password'),
 
     path('register/', register_view, name='register'),
     # Use built-in auth views: login at root, redirect to /home/ on success (LOGIN_REDIRECT_URL)

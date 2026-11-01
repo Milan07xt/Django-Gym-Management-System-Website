@@ -9,3 +9,4 @@ sys.path.insert(0, PROJECT_ROOT)
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'GMS.settings')
 
 application = get_wsgi_application()
+app = application

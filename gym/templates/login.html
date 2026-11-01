@@ -551,6 +551,10 @@
                 {% endfor %}
                 {% endif %}
 
+                {% if error %}
+                <div class="error-alert"><i class="fa fa-exclamation-circle"></i> {{ error }}</div>
+                {% endif %}
+
                 {% if form.non_field_errors %}
                 <div class="error-alert"><i class="fa fa-exclamation-circle"></i> {{ form.non_field_errors|striptags }}
                 </div>
