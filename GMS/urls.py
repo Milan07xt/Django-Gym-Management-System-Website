@@ -17,8 +17,9 @@ urlpatterns = [
     path('forgot_password/', forgot_password, name='forgot_password'),
 
     path('register/', register_view, name='register'),
-    # Use built-in auth views: login at root, redirect to /home/ on success (LOGIN_REDIRECT_URL)
+    # Use built-in auth views: login at root or /login/, redirect to /home/ on success (LOGIN_REDIRECT_URL)
     path('', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('login/', auth_views.LoginView.as_view(template_name='login.html')),
     path('home/', Home, name='home'),
     path('about/', About, name='about'),
     path('contact/', Contact, name='contact'),

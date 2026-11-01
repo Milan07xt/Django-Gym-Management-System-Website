@@ -14,3 +14,4 @@ from django.core.wsgi import get_wsgi_application # pyright: ignore[reportMissin
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'GMS.settings')
 
 application = get_wsgi_application()
+app = application
